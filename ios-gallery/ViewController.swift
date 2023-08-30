@@ -13,15 +13,9 @@ protocol PagerControlProtocol {
     func dismissPager()
 }
 
-protocol AnimatorProtocol {
-    var imageViewSnapshot: UIView? { get set }
-}
-
 class PageViewController: UIViewController {
     var pageViewController : UIPageViewController?
     fileprivate var items: [UIViewController] = []
-    var currentIndex : Int = 0
-    var isPaginationEnabled: Bool = true
     var imageView = UIImageView()
 
     override func viewDidLoad() {
@@ -32,12 +26,8 @@ class PageViewController: UIViewController {
                                                   options: nil)
         pageViewController!.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height);
         self.addChild(self.pageViewController!)
-        self.pageViewController?.view.layer.opacity = 0
-        self.pageViewController?.view.isOpaque = true
         self.view.addSubview(self.pageViewController!.view)
         self.pageViewController!.didMove(toParent: self)
-
-
         self.pageViewController?.dataSource = self
         self.pageViewController?.delegate = self
         let initialPage = 0
@@ -52,18 +42,6 @@ class PageViewController: UIViewController {
     }
 
     func setupUI() {
-        imageView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-        imageView.image = UIImage(named: "mountain")
-        imageView.contentMode = .scaleAspectFit
-
-        self.view.addSubview(imageView)
-        UIView.animate(withDuration: 2) {
-            DispatchQueue.main.async {
-                self.imageView.removeFromSuperview()
-                self.pageViewController?.view.layer.opacity = 1
-                self.pageViewController?.view.isOpaque = false
-            }
-        }
     }
 
     override func didReceiveMemoryWarning() {

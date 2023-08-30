@@ -43,7 +43,6 @@ class ImageDetailViewController: UIViewController {
     }
 
     // MARK: - Functions
-
     func setupUI() {
         self.view.backgroundColor = .black
         self.scrollView.delegate = self
@@ -71,7 +70,6 @@ class ImageDetailViewController: UIViewController {
 
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         //setupAnimation()
-
     }
 
     @objc func pan(_ gesture: UIPanGestureRecognizer) {
@@ -101,7 +99,12 @@ class ImageDetailViewController: UIViewController {
 
             if location.y < midHeight {
                 let opacity =  1 - (midHeight - location.y) / (self.view.frame.height / 2)
-                self.view.layer.opacity = Float(opacity) + 0.5
+                self.view.layer.opacity = Float(opacity) + 0.7
+            }
+
+            if location.y > midHeight {
+                let opacity =  1 - (location.y - midHeight) / (self.view.frame.height / 2)
+                self.view.layer.opacity = Float(opacity) + 0.7
             }
         }
     }
@@ -123,7 +126,6 @@ class ImageDetailViewController: UIViewController {
         delegate.disablePager()
 
         if self.scrollView.zoomScale >= newZoomScale || abs(self.scrollView.zoomScale - newZoomScale) <= 0.01 {
-            print("doubleTapped > enablePager - \(self.scrollView.zoomScale) == \(newZoomScale)")
             delegate.enablePager()
             newZoomScale = self.scrollView.minimumZoomScale
         }
@@ -139,23 +141,18 @@ class ImageDetailViewController: UIViewController {
     fileprivate func updateConstraintsForSize(_ size: CGSize) {
         delegate.disablePager()
 
+        if self.scrollView.zoomScale > self.scrollView.maximumZoomScale {
+            return
+        }
         let yOffset = (self.view.safeAreaLayoutGuide.layoutFrame.size.height - imageView.frame.height) / 2 + 40
-
 
         imageViewTopConstraint.constant = yOffset
 
         view.layoutIfNeeded()
-        //print("---------")
-        //print("\(self.view.safeAreaLayoutGuide.layoutFrame.size)")
-        //print("\(self.view.frame.size) - \(self.view.frame.size)")
-        //print("\(yOffset) - \(imageView.frame.height) - \(imageView.frame.origin.y)")
-        //print(xOffset > 0 ? "MAYOR: \(xOffset)" : "\(xOffset)")
 
         if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y == 0 {
-            //print("updateConstraintsForSize > enablePager - \(scrollView.contentSize.width) == \(imageView.frame.width)")
             delegate.enablePager()
         }
-        //self.scrollView.contentSize = CGSize(width: self.scrollView.contentSize.width, height: self.imageView.frame.height)
     }
 
     fileprivate func updateZoomScaleForSize(_ size: CGSize) {
@@ -165,7 +162,7 @@ class ImageDetailViewController: UIViewController {
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
-        scrollView.maximumZoomScale = minScale * 4
+        scrollView.maximumZoomScale = minScale * 3
     }
 }
 

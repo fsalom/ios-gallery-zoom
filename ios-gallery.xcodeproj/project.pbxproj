@@ -20,9 +20,6 @@
 		C15D4BAF2A94FBC900BD5D8D /* StartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C15D4BAE2A94FBC900BD5D8D /* StartViewController.xib */; };
 		C15D4BB12A94FBD500BD5D8D /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15D4BB02A94FBD500BD5D8D /* StartViewController.swift */; };
 		C15D4BB32A94FDC000BD5D8D /* UIPanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15D4BB22A94FDC000BD5D8D /* UIPanGesture.swift */; };
-		C1CD32582A9CACAB002E3C0A /* Animator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD32572A9CACAB002E3C0A /* Animator.swift */; };
-		C1CD325F2A9CC11A002E3C0A /* SplashViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C1CD325B2A9CC119002E3C0A /* SplashViewController.xib */; };
-		C1CD32602A9CC11A002E3C0A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CD325C2A9CC119002E3C0A /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,9 +38,6 @@
 		C15D4BAE2A94FBC900BD5D8D /* StartViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartViewController.xib; sourceTree = "<group>"; };
 		C15D4BB02A94FBD500BD5D8D /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		C15D4BB22A94FDC000BD5D8D /* UIPanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPanGesture.swift; sourceTree = "<group>"; };
-		C1CD32572A9CACAB002E3C0A /* Animator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animator.swift; sourceTree = "<group>"; };
-		C1CD325B2A9CC119002E3C0A /* SplashViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SplashViewController.xib; sourceTree = "<group>"; };
-		C1CD325C2A9CC119002E3C0A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +70,6 @@
 		C15D4B7D2A94DA7900BD5D8D /* ios-gallery */ = {
 			isa = PBXGroup;
 			children = (
-				C1CD32592A9CC119002E3C0A /* Splash */,
 				C15D4BAD2A94FBB600BD5D8D /* Start */,
 				C15D4B972A94DD0A00BD5D8D /* ImageDetail */,
 				C15D4B7E2A94DA7900BD5D8D /* AppDelegate.swift */,
@@ -87,7 +80,6 @@
 				C15D4B892A94DA7B00BD5D8D /* LaunchScreen.storyboard */,
 				C15D4B8C2A94DA7B00BD5D8D /* Info.plist */,
 				C15D4BB22A94FDC000BD5D8D /* UIPanGesture.swift */,
-				C1CD32572A9CACAB002E3C0A /* Animator.swift */,
 			);
 			path = "ios-gallery";
 			sourceTree = "<group>";
@@ -110,15 +102,6 @@
 				C15D4BB02A94FBD500BD5D8D /* StartViewController.swift */,
 			);
 			path = Start;
-			sourceTree = "<group>";
-		};
-		C1CD32592A9CC119002E3C0A /* Splash */ = {
-			isa = PBXGroup;
-			children = (
-				C1CD325B2A9CC119002E3C0A /* SplashViewController.xib */,
-				C1CD325C2A9CC119002E3C0A /* SplashViewController.swift */,
-			);
-			path = Splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -180,7 +163,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C15D4BA32A94DD0A00BD5D8D /* ImageDetailViewController.xib in Resources */,
-				C1CD325F2A9CC11A002E3C0A /* SplashViewController.xib in Resources */,
 				C15D4B8B2A94DA7B00BD5D8D /* LaunchScreen.storyboard in Resources */,
 				C15D4BAF2A94FBC900BD5D8D /* StartViewController.xib in Resources */,
 				C15D4B882A94DA7B00BD5D8D /* Assets.xcassets in Resources */,
@@ -197,12 +179,10 @@
 			files = (
 				C15D4BA72A94DD0A00BD5D8D /* ImageDetailBuilder.swift in Sources */,
 				C15D4BB32A94FDC000BD5D8D /* UIPanGesture.swift in Sources */,
-				C1CD32602A9CC11A002E3C0A /* SplashViewController.swift in Sources */,
 				C15D4BA22A94DD0A00BD5D8D /* ImageDetailViewModel.swift in Sources */,
 				C15D4BA42A94DD0A00BD5D8D /* ImageDetailViewController.swift in Sources */,
 				C15D4B832A94DA7900BD5D8D /* ViewController.swift in Sources */,
 				C15D4B7F2A94DA7900BD5D8D /* AppDelegate.swift in Sources */,
-				C1CD32582A9CACAB002E3C0A /* Animator.swift in Sources */,
 				C15D4BB12A94FBD500BD5D8D /* StartViewController.swift in Sources */,
 				C15D4B812A94DA7900BD5D8D /* SceneDelegate.swift in Sources */,
 			);
