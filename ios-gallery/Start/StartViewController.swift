@@ -12,6 +12,8 @@ class StartViewController: UIViewController {
 
     @IBOutlet weak var imageView: UIImageView!
 
+    
+
     override public init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -28,10 +30,11 @@ class StartViewController: UIViewController {
     }
 
     func goToGallery() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "PageViewController")
-        vc.modalPresentationStyle = .custom
-        self.present(vc, animated: false, completion: nil)
+        let images = ["https://c02.purpledshub.com/uploads/sites/41/2021/08/mountains-7ddde89.jpg", "https://c02.purpledshub.com/uploads/sites/41/2021/08/mountains-7ddde89.jpg", "https://c02.purpledshub.com/uploads/sites/41/2021/08/mountains-7ddde89.jpg"]
+        let pager = PagerViewBuilder().build(this: images)
+
+        pager.modalPresentationStyle = .custom
+        self.present(pager, animated: false, completion: nil)
     }
 }
 

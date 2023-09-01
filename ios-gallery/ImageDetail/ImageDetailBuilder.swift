@@ -15,10 +15,10 @@ enum ImageDetailState {
 }
 
 final class ImageDetailBuilder {
-    func build(this image: UIImage, delegate: PagerControlProtocol) -> ImageDetailViewController {
+    func build(this url: String, delegate: PagerControlProtocol) -> ImageDetailViewController {
         let viewController = ImageDetailViewController()
         viewController.delegate = delegate
-        let viewModel = ImageDetailViewModel(for: image)
+        let viewModel = ImageDetailViewModel(for: url)
         viewController.viewModel = viewModel
         return viewController
     }

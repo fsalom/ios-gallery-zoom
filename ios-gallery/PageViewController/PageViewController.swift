@@ -13,30 +13,30 @@ protocol PagerControlProtocol {
     func dismissPager()
 }
 
-class PageViewController: UIViewController {
+class PagerViewController: UIPageViewController {
+    public var images = [String]()
     var pageViewController : UIPageViewController?
     fileprivate var items: [UIViewController] = []
     var imageView = UIImageView()
 
+    override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
+        super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.dataSource = self
+        self.delegate = self
 
-        pageViewController = UIPageViewController(transitionStyle: .scroll,
-                                                  navigationOrientation: .horizontal,
-                                                  options: nil)
-        pageViewController!.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height);
-        self.addChild(self.pageViewController!)
-        self.view.addSubview(self.pageViewController!.view)
-        self.pageViewController!.didMove(toParent: self)
-        self.pageViewController?.dataSource = self
-        self.pageViewController?.delegate = self
-        let initialPage = 0
+        for image in images {
+            items.append(ImageDetailBuilder().build(this: image, delegate: self))
+        }
 
-        items = [ImageDetailBuilder().build(this: UIImage(named: "mountain")!, delegate: self),
-                 ImageDetailBuilder().build(this: UIImage(named: "beach")!, delegate: self),
-                 ImageDetailBuilder().build(this: UIImage(named: "mountain")!, delegate: self)]
-
-        self.pageViewController?.setViewControllers([items[initialPage]], direction: .forward, animated: true, completion: nil)
+        self.setViewControllers([items[0]], direction: .forward, animated: true, completion: nil)
 
         setupUI()
     }
@@ -50,7 +50,7 @@ class PageViewController: UIViewController {
 
     func disableSwipeGesture(){
         DispatchQueue.main.async {
-            for view in self.pageViewController!.view.subviews {
+            for view in self.view.subviews {
                 if let subView = view as? UIScrollView {
                     subView.isScrollEnabled = false
                 }
@@ -60,7 +60,7 @@ class PageViewController: UIViewController {
 
     func enableSwipeGesture(){
         DispatchQueue.main.async {
-            for view in self.pageViewController!.view.subviews {
+            for view in self.view.subviews {
                 if let subView = view as? UIScrollView {
                     subView.isScrollEnabled = true
                 }
@@ -69,8 +69,7 @@ class PageViewController: UIViewController {
     }
 }
 
-extension PageViewController:  UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-
+extension PagerViewController:  UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if let viewControllerIndex = self.items.firstIndex(of: viewController) {
                if viewControllerIndex == 0 {
@@ -117,7 +116,7 @@ extension PageViewController:  UIPageViewControllerDataSource, UIPageViewControl
 
 }
 
-extension PageViewController: PagerControlProtocol {
+extension PagerViewController: PagerControlProtocol {
     func disablePager() {
         print("disableSwipeGesture")
         disableSwipeGesture()

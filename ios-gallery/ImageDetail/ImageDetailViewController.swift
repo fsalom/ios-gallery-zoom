@@ -28,6 +28,7 @@ class ImageDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupBindings()
     }
 
     override func viewDidLayoutSubviews() {
@@ -43,14 +44,32 @@ class ImageDetailViewController: UIViewController {
     }
 
     // MARK: - Functions
+    func setupBindings() {
+        viewModel.didDownloadImage = {
+            DispatchQueue.main.async {
+                self.setupImage()
+            }
+        }
+    }
+
     func setupUI() {
+        self.scrollView.backgroundColor = .black
+        self.imageView.image = UIImage(systemName: "photo")
+        self.imageView.tintColor = .white
+
+    }
+
+    func setupImage() {
         self.view.backgroundColor = .black
         self.scrollView.delegate = self
-        self.imageView.image = viewModel.image
+        guard let imageData = viewModel.data,
+              let width = imageView.image?.size.width,
+              let height = imageView.image?.size.height  else { return }
+        self.imageView.image = UIImage(data: imageData)
         self.imageView.frame = CGRect(x: self.imageView.frame.origin.x,
                                       y: self.imageView.frame.origin.y,
-                                      width: viewModel.image.size.width,
-                                      height: viewModel.image.size.height)
+                                      width: width,
+                                      height: height)
         addGesture()
     }
 
