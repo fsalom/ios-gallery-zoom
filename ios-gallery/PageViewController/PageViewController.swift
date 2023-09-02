@@ -39,9 +39,11 @@ class PagerViewController: UIPageViewController {
         self.setViewControllers([items[0]], direction: .forward, animated: true, completion: nil)
 
         setupUI()
+        enableSwipeGesture()
     }
 
     func setupUI() {
+        self.view.backgroundColor = .black
     }
 
     override func didReceiveMemoryWarning() {
@@ -75,7 +77,6 @@ extension PagerViewController:  UIPageViewControllerDataSource, UIPageViewContro
                if viewControllerIndex == 0 {
                    return nil
                } else {
-                   // go to previous page in array
                    return self.items[viewControllerIndex - 1]
                }
            }
@@ -85,10 +86,8 @@ extension PagerViewController:  UIPageViewControllerDataSource, UIPageViewContro
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         if let viewControllerIndex = self.items.firstIndex(of: viewController) {
                 if viewControllerIndex < self.items.count - 1 {
-                    // go to next page in array
                     return self.items[viewControllerIndex + 1]
                 } else {
-                    // wrap to first page in array
                     return nil
                 }
             }
@@ -96,7 +95,6 @@ extension PagerViewController:  UIPageViewControllerDataSource, UIPageViewContro
     }
 
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        print("presentationCountForPageViewController - \(items.count)")
         return self.items.count
     }
 
@@ -118,17 +116,22 @@ extension PagerViewController:  UIPageViewControllerDataSource, UIPageViewContro
 
 extension PagerViewController: PagerControlProtocol {
     func disablePager() {
-        print("disableSwipeGesture")
         disableSwipeGesture()
     }
     
     func enablePager() {
-        print("enableSwipeGesture")
         enableSwipeGesture()
     }
     
     func dismissPager() {
-        dismiss(animated: false)
+        UIView.animate(withDuration: 2,
+                       delay: 0,
+                       options: [.curveEaseOut]) {
+            self.view.isOpaque = false
+            self.view.layer.opacity = 0
+            self.dismiss(animated: false)
+        }
+
     }
 }
 

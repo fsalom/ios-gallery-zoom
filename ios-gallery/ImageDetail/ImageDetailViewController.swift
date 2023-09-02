@@ -27,8 +27,10 @@ class ImageDetailViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
         setupBindings()
+        viewModel.load()
+        self.updateZoomScaleForSize(self.view.bounds.size)
+        self.updateConstraintsForSize(self.view.bounds.size)
     }
 
     override func viewDidLayoutSubviews() {
@@ -48,24 +50,26 @@ class ImageDetailViewController: UIViewController {
         viewModel.didDownloadImage = {
             DispatchQueue.main.async {
                 self.setupImage()
+                self.view.layoutIfNeeded()
+                self.updateZoomScaleForSize(self.view.bounds.size)
+                self.updateConstraintsForSize(self.view.bounds.size)
             }
         }
     }
 
     func setupUI() {
         self.scrollView.backgroundColor = .black
-        self.imageView.image = UIImage(systemName: "photo")
-        self.imageView.tintColor = .white
-
     }
 
     func setupImage() {
         self.view.backgroundColor = .black
         self.scrollView.delegate = self
-        guard let imageData = viewModel.data,
-              let width = imageView.image?.size.width,
-              let height = imageView.image?.size.height  else { return }
+        guard let imageData = viewModel.data else { return }
+        print("imagedata ok")
         self.imageView.image = UIImage(data: imageData)
+        guard let width = imageView.image?.size.width,
+              let height = imageView.image?.size.height else { return }
+        print("\(width) - \(height)")
         self.imageView.frame = CGRect(x: self.imageView.frame.origin.x,
                                       y: self.imageView.frame.origin.y,
                                       width: width,
@@ -100,6 +104,12 @@ class ImageDetailViewController: UIViewController {
         if gesture.state == .ended {
             if gesture.velocity(in: self.scrollView).y < -100 {
                 if beginLocation.y - location.y > 200 {
+                    self.delegate.dismissPager()
+                    return
+                }
+            }
+            if gesture.velocity(in: self.scrollView).y > 100 {
+                if location.y - beginLocation.y > 200 {
                     self.delegate.dismissPager()
                     return
                 }
