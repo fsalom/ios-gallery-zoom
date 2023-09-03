@@ -7,7 +7,6 @@ final class ImageDetailViewModel {
     var data: Data? {
         didSet {
             didDownloadImage?()
-            print("Finish - didDownloadImage")
         }
     }
     var didDownloadImage: (() -> Void)?

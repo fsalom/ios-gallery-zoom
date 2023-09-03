@@ -29,8 +29,8 @@ class ImageDetailViewController: UIViewController {
         super.viewDidLoad()
         setupBindings()
         viewModel.load()
-        self.updateZoomScaleForSize(self.view.bounds.size)
-        self.updateConstraintsForSize(self.view.bounds.size)
+        updateZoomScaleForSize(self.view.bounds.size)
+        updateConstraintsForSize(self.view.bounds.size)
     }
 
     override func viewDidLayoutSubviews() {
@@ -65,28 +65,31 @@ class ImageDetailViewController: UIViewController {
         self.view.backgroundColor = .black
         self.scrollView.delegate = self
         guard let imageData = viewModel.data else { return }
-        print("imagedata ok")
         self.imageView.image = UIImage(data: imageData)
         guard let width = imageView.image?.size.width,
               let height = imageView.image?.size.height else { return }
-        print("\(width) - \(height)")
         self.imageView.frame = CGRect(x: self.imageView.frame.origin.x,
                                       y: self.imageView.frame.origin.y,
                                       width: width,
                                       height: height)
-        addGesture()
+        addGestures()
     }
 
-    func addGesture() {
+    func addGestures() {
         imageView.isUserInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+
+        let tapGesture = UITapGestureRecognizer(target: self,
+                                                action: #selector(handleTap(_:)))
         tapGesture.numberOfTapsRequired = 1
         imageView.addGestureRecognizer(tapGesture)
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+        let doubleTap = UITapGestureRecognizer(target: self,
+                                               action: #selector(doubleTapped))
         doubleTap.numberOfTapsRequired = 2
         tapGesture.require(toFail: doubleTap)
         imageView.addGestureRecognizer(doubleTap)
-        let panGesture = PanDirectionGestureRecognizer(direction: .vertical, target: self, action: #selector(pan(_ :)))
+        let panGesture = PanDirectionGestureRecognizer(direction: .vertical,
+                                                       target: self,
+                                                       action: #selector(pan(_ :)))
         imageView.addGestureRecognizer(panGesture)
         panGesture.delegate = self
     }

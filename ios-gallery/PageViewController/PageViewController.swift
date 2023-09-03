@@ -15,6 +15,7 @@ protocol PagerControlProtocol {
 
 class PagerViewController: UIPageViewController {
     public var images = [String]()
+    public var initialIndex = 1
     var pageViewController : UIPageViewController?
     fileprivate var items: [UIViewController] = []
     var imageView = UIImageView()
@@ -29,6 +30,12 @@ class PagerViewController: UIPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupPager()
+        setupUI()
+        enableSwipeGesture()
+    }
+
+    func setupPager() {
         self.dataSource = self
         self.delegate = self
 
@@ -36,10 +43,10 @@ class PagerViewController: UIPageViewController {
             items.append(ImageDetailBuilder().build(this: image, delegate: self))
         }
 
-        self.setViewControllers([items[0]], direction: .forward, animated: true, completion: nil)
-
-        setupUI()
-        enableSwipeGesture()
+        self.setViewControllers([items[initialIndex]],
+                                direction: .forward,
+                                animated: true,
+                                completion: nil)
     }
 
     func setupUI() {
