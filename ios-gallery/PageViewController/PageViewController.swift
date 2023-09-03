@@ -36,9 +36,6 @@ class PagerViewController: UIPageViewController {
     }
 
     func setupPager() {
-        self.dataSource = self
-        self.delegate = self
-
         for image in images {
             items.append(ImageDetailBuilder().build(this: image, delegate: self))
         }
@@ -47,6 +44,8 @@ class PagerViewController: UIPageViewController {
                                 direction: .forward,
                                 animated: true,
                                 completion: nil)
+        self.dataSource = self
+        self.delegate = self
     }
 
     func setupUI() {
@@ -117,8 +116,6 @@ extension PagerViewController:  UIPageViewControllerDataSource, UIPageViewContro
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
         return 0
     }
-
-
 }
 
 extension PagerViewController: PagerControlProtocol {

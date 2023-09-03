@@ -19,10 +19,18 @@ class ImageDetailViewController: UIViewController {
     @IBOutlet weak var imageViewTrailingConstraint: NSLayoutConstraint!
 
     // MARK: - Properties
-    var imageURL: String!
     var viewModel: ImageDetailViewModel!
     var delegate: PagerControlProtocol!
     var beginLocation: CGPoint = CGPoint(x: 0, y: 0)
+    var canMoveToDifferentImage: Bool = true {
+        didSet {
+            if canMoveToDifferentImage {
+                delegate.enablePager()
+            } else {
+                delegate.disablePager()
+            }
+        }
+    }
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -155,11 +163,12 @@ class ImageDetailViewController: UIViewController {
     @objc func doubleTapped(_ gesture: UITapGestureRecognizer) {
         let pointInView = gesture.location(in: self.imageView)
         var newZoomScale = self.scrollView.maximumZoomScale
-        delegate.disablePager()
 
         if self.scrollView.zoomScale >= newZoomScale || abs(self.scrollView.zoomScale - newZoomScale) <= 0.01 {
             delegate.enablePager()
             newZoomScale = self.scrollView.minimumZoomScale
+        } else {
+            delegate.disablePager()
         }
 
         let width = self.scrollView.bounds.width / newZoomScale
@@ -171,8 +180,6 @@ class ImageDetailViewController: UIViewController {
     }
 
     fileprivate func updateConstraintsForSize(_ size: CGSize) {
-        delegate.disablePager()
-
         if self.scrollView.zoomScale > self.scrollView.maximumZoomScale {
             return
         }
@@ -182,8 +189,12 @@ class ImageDetailViewController: UIViewController {
 
         view.layoutIfNeeded()
 
-        if scrollView.contentOffset.x == 0 && scrollView.contentOffset.y == 0 {
-            delegate.enablePager()
+        if scrollView.contentOffset.x != 0 || scrollView.contentOffset.y != 0 {
+            canMoveToDifferentImage = false
+        } else {
+            if !canMoveToDifferentImage {
+                canMoveToDifferentImage = true
+            }
         }
     }
 
